@@ -1,11 +1,22 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const stripe = require("stripe")("sk_test_51MRXkxSCngDI2lxAdo0B4xFZz8ssv4K6yu3XBn6GcELDMJGOJHqno9gujh47RgKccLA1sshkHfgOTR7Idb3GCVex004kJgQKVH");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+const path=require("path")
+
+if(process.env.NODE_ENV==="production")
+{
+    app.use(express.static("build"));
+    app.get("*",(req, res)=>
+    {
+        res.sendFile(path.resolve(__dirname,"build","index.html"))
+    });
+}
+
 
 app.get("/", (req, res) => {
   res.send("Welcome to eShop website.");

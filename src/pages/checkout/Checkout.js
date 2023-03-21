@@ -16,7 +16,7 @@ import {
 import { toast } from "react-toastify";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
+const stripePromise = loadStripe("pk_test_51MRXkxSCngDI2lxAWJdjx7ytuCCoNpT49aCN6mQeOruba80gDs4ooj35vmDAvGxXybewNWmqtjlP4Tvw9VBRDulH00PUTT7t9d");
 
 const Checkout = () => {
   const [message, setMessage] = useState("Initializing checkout...");
