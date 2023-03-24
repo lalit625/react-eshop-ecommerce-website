@@ -28,7 +28,7 @@ const ViewProducts = () => {
   const filteredProducts = useSelector(selectFilteredProducts);
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(10);
+  const [productsPerPage] = useState(10);
   // Get Current Products
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -108,12 +108,13 @@ const ViewProducts = () => {
                 <th>Name</th>
                 <th>Category</th>
                 <th>Price</th>
+                <th>Item Quanity</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {currentProducts.map((product, index) => {
-                const { id, name, price, imageURL, category } = product;
+                const { id, name, price, imageURL, itemquantity, category } = product;
                 return (
                   <tr key={id}>
                     <td>{index + 1}</td>
@@ -127,6 +128,7 @@ const ViewProducts = () => {
                     <td>{name}</td>
                     <td>{category}</td>
                     <td>{`$${price}`}</td>
+                    <td>{itemquantity}</td>
                     <td className={styles.icons}>
                       <Link to={`/admin/add-product/${id}`}>
                         <FaEdit size={20} color="green" />

@@ -28,6 +28,7 @@ const initialState = {
   price: 0,
   category: "",
   brand: "",
+  itemquantity:"",
   desc: "",
 };
 
@@ -35,7 +36,7 @@ const AddProduct = () => {
   const { id } = useParams();
   const products = useSelector(selectProducts);
   const productEdit = products.find((item) => item.id === id);
-  console.log(productEdit);
+  
 
   const [product, setProduct] = useState(() => {
     const newState = detectForm(id, { ...initialState }, productEdit);
@@ -97,6 +98,7 @@ const AddProduct = () => {
         category: product.category,
         brand: product.brand,
         desc: product.desc,
+        itemquantity:product.itemquantity,
         createdAt: Timestamp.now().toDate(),
       });
       setIsLoading(false);
@@ -127,6 +129,7 @@ const AddProduct = () => {
         price: Number(product.price),
         category: product.category,
         brand: product.brand,
+        itemquantity:product.itemquantity,
         desc: product.desc,
         createdAt: productEdit.createdAt,
         editedAt: Timestamp.now().toDate(),
@@ -227,6 +230,16 @@ const AddProduct = () => {
               required
               name="brand"
               value={product.brand}
+              onChange={(e) => handleInputChange(e)}
+            />
+             <label>Item Quantity:</label>
+            <input
+              type="number"
+              placeholder="Item Quantity"
+              required
+              name="itemquantity"
+              value={product.itemquantity}
+              
               onChange={(e) => handleInputChange(e)}
             />
 

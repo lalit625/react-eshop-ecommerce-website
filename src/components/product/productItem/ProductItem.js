@@ -8,7 +8,9 @@ import {
 import Card from "../../card/Card";
 import styles from "./ProductItem.module.scss";
 
-const ProductItem = ({ product, grid, id, name, price, desc, imageURL }) => {
+const ProductItem = ({ product, grid, id, name, price, desc, imageURL, itemquantity }) => {
+
+  
   const dispatch = useDispatch();
   const shortenText = (text, n) => {
     if (text.length > n) {
@@ -36,12 +38,14 @@ const ProductItem = ({ product, grid, id, name, price, desc, imageURL }) => {
           <h4>{shortenText(name, 18)}</h4>
         </div>
         {!grid && <p className={styles.desc}>{shortenText(desc, 200)}</p>}
+       
 
         <button
-          className="--btn --btn-danger"
+          className={itemquantity!=="0"?"--btn --btn-danger":"--btn --btn-disabled"}
           onClick={() => addToCart(product)}
+          disabled={itemquantity==="0" ? true: ""}
         >
-          Add To Cart
+          {itemquantity==="0"? "Out of Stock" : "Add To Cart"}
         </button>
       </div>
     </Card>

@@ -4,6 +4,7 @@ const initialState = {
   products: [],
   minPrice: null,
   maxPrice: null,
+  itemquantity:{}
 };
 
 const productSlice = createSlice({
@@ -21,12 +22,13 @@ const productSlice = createSlice({
       const array = [];
       products.map((product) => {
         const price = product.price;
+       
         
         return array.push(price);
       });
       const max = Math.max(...array);
       const min = Math.min(...array);
-
+      
    
 
       state.minPrice = min;

@@ -93,12 +93,15 @@ const ProductDetails = () => {
                     </>
                   )}
                 </div>
+
                 <button
-                  className="--btn --btn-danger"
-                  onClick={() => addToCart(product)}
-                >
-                  ADD TO CART
-                </button>
+          className={product.itemquantity!=="0"?"--btn --btn-danger":"--btn --btn-disabled"}
+          onClick={() => addToCart(product)}
+          disabled={product.itemquantity==="0" ? true: ""}
+        >
+          {product.itemquantity==="0"? "Out of Stock" : "Add To Cart"}
+        </button>
+              
               </div>
             </div>
           </>

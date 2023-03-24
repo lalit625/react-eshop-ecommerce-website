@@ -10,6 +10,10 @@ const initialState = {
   ? JSON.parse(localStorage.getItem("cartTotalAmount"))
   : [],
   previousURL: "",
+  savelater: localStorage.getItem("savelater")
+    ? JSON.parse(localStorage.getItem("savelater"))
+    : [],
+   
 };
 
 const cartSlice = createSlice({
@@ -17,10 +21,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART(state, action) {
-      //   console.log(action.payload);
+         
+              
       const productIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
       );
+      
 
       if (productIndex >= 0) {
         // Item already exists in the cart
@@ -38,8 +44,10 @@ const cartSlice = createSlice({
           position: "top-left",
         });
       }
+      
       // save cart to LS
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      console.log(state.cartItems)
     },
     DECREASE_CART(state, action) {
       console.log(action.payload);
@@ -62,6 +70,7 @@ const cartSlice = createSlice({
         });
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("savelater", JSON.stringify(state.savelater));
     },
     REMOVE_FROM_CART(state, action) {
       const newCartItem = state.cartItems.filter(
@@ -74,6 +83,7 @@ const cartSlice = createSlice({
       });
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    
     },
     CLEAR_CART(state, action) {
       state.cartItems = [];
@@ -112,6 +122,62 @@ const cartSlice = createSlice({
       console.log(action.payload);
       state.previousURL = action.payload;
     },
+    SAVE_FOR_LATER(state, action) {
+
+      //console.log(action.payload);
+      const tempProduct = { ...action.payload };
+      state.savelater.push(tempProduct);
+      // const newCartItem = action.payload;
+      
+      // const newCartItem2=[{action.payload},...newCartItem]
+    
+      
+      
+       /* const newCartItem3 = state.savelater.filter(
+          (item) => item.id === action.payload.id
+        ); */
+      // //console.log(newCartItem)
+       
+     
+
+      //state.savelater =  newCartItem3;
+      toast.success(`${action.payload.name} add to save list`, {
+        position: "top-left",
+      });
+
+      localStorage.setItem("savelater", JSON.stringify(state.savelater));
+    },
+
+    SAVE_FOR_LATER_MOVE_CART(state, action)
+    
+    {
+
+      
+      const tempProduct = { ...action.payload, cartQuantity: 1 };
+      
+      state.cartItems.push(tempProduct);
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      toast.success(`${action.payload.name} added to cart`, {
+        position: "top-left",
+      });
+     
+      
+    },
+    REMOVE_SAVE_FOR_LATER(state, action)
+
+    {
+      const newSaveLater = state.savelater.filter(
+        (item) => item.id !== action.payload.id
+      );
+
+      state.savelater = newSaveLater;
+      toast.success(`${action.payload.name} removed from Saved List`, {
+        position: "top-left",
+      });
+
+      localStorage.setItem("savelater", JSON.stringify(state.savelater));
+
+    }
   },
 });
 
@@ -123,9 +189,13 @@ export const {
   CALCULATE_SUBTOTAL,
   CALCULATE_TOTAL_QUANTITY,
   SAVE_URL,
+  SAVE_FOR_LATER,
+  SAVE_FOR_LATER_MOVE_CART,
+  REMOVE_SAVE_FOR_LATER
 } = cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
+export const selectSaveLaterItem = (state) => state.cart.savelater;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;
 export const selectCartTotalAmount = (state) => state.cart.cartTotalAmount;
 export const selectPreviousURL = (state) => state.cart.previousURL;

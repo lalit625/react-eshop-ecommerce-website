@@ -15,11 +15,13 @@ import {
   CLEAR_CART,
   selectCartItems,
   selectCartTotalAmount,
+  
 } from "../../redux/slice/cartSlice";
 import { selectShippingAddress } from "../../redux/slice/checkoutSlice";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { useNavigate } from "react-router-dom";
+
 
 const CheckoutForm = () => {
   const [message, setMessage] = useState(null);
@@ -35,6 +37,9 @@ const CheckoutForm = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const shippingAddress = useSelector(selectShippingAddress);
+ // const cartTotalQuantity=useSelector(selectCartTotalQuantity)
+ 
+   
 
   useEffect(() => {
     if (!stripe) {
@@ -49,6 +54,24 @@ const CheckoutForm = () => {
       return;
     }
   }, [stripe]);
+  // const updateitem=()=>
+  // {
+  //   cartItems.map((cartitm)=>
+  //     {
+  //       setDoc(doc(db, "products", cartitm.id), {
+  //         name: cartitm.name,
+  //         imageURL: cartitm.imageURL,
+  //         price: Number(cartitm.price),
+  //         category: cartitm.category,
+  //         brand: cartitm.brand,
+  //         itemquantity:cartitm.itemquantity-1,
+  //         desc: cartitm.desc,
+  //         createdAt: cartitm.createdAt,
+  //         editedAt: Timestamp.now().toDate(),
+  //       });
+  //     }
+  //     )
+  // }
 
   // Save order to Order History
   const saveOrder = () => {
@@ -70,7 +93,10 @@ const CheckoutForm = () => {
       addDoc(collection(db, "orders"), orderConfig);
       dispatch(CLEAR_CART());
       toast.success("Order saved");
+    
       navigate("/checkout-success");
+      
+    
     } catch (error) {
       toast.error(error.message);
     }
@@ -91,7 +117,7 @@ const CheckoutForm = () => {
         elements,
         confirmParams: {
           // Make sure to change this to your payment completion page
-          return_url: "http://localhost:3000/checkout-success",
+          return_url: "https://cheery-sfogliatella-7d3524.netlify.app/checkout-success",
         },
         redirect: "if_required",
       })

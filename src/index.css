@@ -316,6 +316,11 @@ p {
   background: #28a745;
 }
 
+.--btn-disabled {
+  color: #333;
+  background: #8e9c91;
+}
+
 /* Background */
 .--bg-light {
   background: #fff;
